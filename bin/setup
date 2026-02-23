@@ -15,8 +15,12 @@ FileUtils.chdir APP_ROOT do
   puts "== Installing dependencies =="
   system("bundle check") || system!("bundle install")
 
-  # Install JavaScript dependencies
-  system!("npm install")
+  # Install JavaScript dependencies (pnpm is the supported package manager).
+  if system("command -v mise > /dev/null 2>&1")
+    system!("mise exec -- pnpm install --frozen-lockfile")
+  else
+    system!("pnpm install --frozen-lockfile")
+  end
 
   # puts "\n== Copying sample files =="
   # unless File.exist?("config/database.yml")
