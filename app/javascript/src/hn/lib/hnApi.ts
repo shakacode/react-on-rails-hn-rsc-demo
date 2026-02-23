@@ -1,12 +1,18 @@
-import "server-only";
-
 import { cache } from "react";
+import https from "node:https";
 
 import type { HNItem, HNStoryPage, HNStoryType, HNUser } from "./types";
+
+// `server-only` from Next.js throws in non-Next runtimes.
+// Keep an explicit browser guard instead for React on Rails.
+if (typeof window !== "undefined") {
+  throw new Error("hnApi must only run in server-rendered modules.");
+}
 
 const HN_BASE_URL = "https://hacker-news.firebaseio.com/v0";
 const DEFAULT_PAGE_SIZE = 30;
 const MAX_PAGE_SIZE = 100;
+const REQUEST_TIMEOUT_MS = 10_000;
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -55,18 +61,58 @@ class HNApiError extends Error {
   }
 }
 
-const fetchJson = cache(async (path: string): Promise<unknown> => {
-  const response = await fetch(`${HN_BASE_URL}/${path}`, {
-    headers: {
-      Accept: "application/json",
-    },
+function requestJson(url: string): Promise<unknown> {
+  return new Promise((resolve, reject) => {
+    const request = https.get(
+      url,
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      },
+      (response) => {
+        const status = response.statusCode ?? 500;
+
+        if (status < 200 || status >= 300) {
+          response.resume();
+          reject(new HNApiError(`HN API request failed: ${url}`, status));
+          return;
+        }
+
+        response.setEncoding("utf8");
+        let body = "";
+
+        response.on("data", (chunk) => {
+          body += chunk;
+        });
+
+        response.on("end", () => {
+          try {
+            resolve(JSON.parse(body));
+          } catch {
+            reject(new HNApiError(`HN API returned invalid JSON: ${url}`));
+          }
+        });
+      },
+    );
+
+    request.setTimeout(REQUEST_TIMEOUT_MS, () => {
+      request.destroy(new HNApiError(`HN API request timed out: ${url}`, 504));
+    });
+
+    request.on("error", (error) => {
+      if (error instanceof HNApiError) {
+        reject(error);
+        return;
+      }
+
+      reject(new HNApiError(`HN API network error: ${url} (${error.message})`, 502));
+    });
   });
+}
 
-  if (!response.ok) {
-    throw new HNApiError(`HN API request failed: ${path}`, response.status);
-  }
-
-  return response.json();
+const fetchJson = cache(async (path: string): Promise<unknown> => {
+  return requestJson(`${HN_BASE_URL}/${path}`);
 });
 
 export const fetchStoryIds = cache(async (storyType: HNStoryType = "top"): Promise<number[]> => {

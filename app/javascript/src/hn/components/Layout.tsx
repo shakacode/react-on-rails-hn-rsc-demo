@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 
-import type { HNStoryType } from "../../hn/lib";
+import type { HNStoryType } from "../../hn/lib/types";
 
 import Footer from "./Footer";
 import Header from "./Header";

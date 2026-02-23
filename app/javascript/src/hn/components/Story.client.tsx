@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React from "react";
 
 import type { StoryViewModel } from "../../hn/lib/mappers";
 
@@ -13,16 +13,13 @@ interface StoryProps {
 }
 
 export default function Story({ rank, story }: StoryProps) {
-  const [voted, setVoted] = useState(false);
-
   return (
     <article className={styles.story}>
       <span className={styles.rank}>{rank}.</span>
       <div className={styles.content}>
         <h2 className={styles.title}>
           <button
-            className={voted ? `${styles.vote} ${styles.voteActive}` : styles.vote}
-            onClick={() => setVoted(!voted)}
+            className={styles.vote}
             type="button"
           >
             ▲

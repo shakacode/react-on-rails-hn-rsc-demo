@@ -1,11 +1,11 @@
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 
 import {
   fetchItem,
   fetchStoryPage,
-  mapItemToStory,
-  type HNStoryType,
-} from "../../hn/lib";
+} from "../../hn/lib/server";
+import { mapItemToStory } from "../../hn/lib/mappers";
+import type { HNStoryType } from "../../hn/lib/types";
 
 import Pagination from "./Pagination";
 import Story from "./Story.client";

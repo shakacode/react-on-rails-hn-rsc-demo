@@ -7,7 +7,7 @@ const ServerClientOrBoth = require('./ServerClientOrBoth');
 
 const developmentEnvOnly = (clientWebpackConfig, _serverWebpackConfig) => {
   // React Refresh (Fast Refresh) setup - only when dev server is running (HMR mode)
-  if (process.env.WEBPACK_SERVE) {
+  if (process.env.WEBPACK_SERVE && devServer.hmr) {
     // eslint-disable-next-line global-require
     if (config.assets_bundler === 'rspack') {
       // Rspack uses @rspack/plugin-react-refresh for React Fast Refresh

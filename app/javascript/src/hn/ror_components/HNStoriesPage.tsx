@@ -1,6 +1,6 @@
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 
-import { normalizeStoryType } from "../../hn/lib";
+import { normalizeStoryType } from "../../hn/lib/mappers";
 import Layout from "../components/Layout";
 import Stories from "../components/Stories";
 

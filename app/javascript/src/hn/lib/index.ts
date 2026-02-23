@@ -1,12 +1,4 @@
 export {
-  fetchItem,
-  fetchStoryIds,
-  fetchStoryPage,
-  fetchUser,
-  HNApiError,
-} from "./hnApi";
-
-export {
   extractDomain,
   mapItemToComment,
   mapItemToStory,

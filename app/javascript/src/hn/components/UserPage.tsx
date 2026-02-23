@@ -1,4 +1,7 @@
-import { fetchUser, mapUserToViewModel } from "../../hn/lib";
+import React from "react";
+
+import { mapUserToViewModel } from "../../hn/lib/mappers";
+import { fetchUser } from "../../hn/lib/server";
 
 import { formatAbsoluteDate } from "./formatting";
 import * as styles from "./UserPage.module.css";

@@ -1,4 +1,6 @@
-import type { HNStoryType } from "../../hn/lib";
+import React from "react";
+
+import type { HNStoryType } from "../../hn/lib/types";
 
 import * as styles from "./Pagination.module.css";
 

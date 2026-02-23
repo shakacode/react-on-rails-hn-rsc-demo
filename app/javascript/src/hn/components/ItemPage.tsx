@@ -1,4 +1,7 @@
-import { fetchItem, mapItemToComment, mapItemToStory } from "../../hn/lib";
+import React from "react";
+
+import { mapItemToComment, mapItemToStory } from "../../hn/lib/mappers";
+import { fetchItem } from "../../hn/lib/server";
 
 import { formatAbsoluteDate, pluralize, timeAgo } from "./formatting";
 import * as styles from "./ItemPage.module.css";
