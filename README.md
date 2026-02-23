@@ -8,17 +8,17 @@ This repository is the implementation workspace for:
 
 Initial app scaffolding was created with:
 
-- `create-react-on-rails-app@16.4.0-rc.3`
+- `create-react-on-rails-app@16.4.0-rc.4`
 
 Pinned package versions:
 
 - npm:
-  - `react-on-rails-pro@16.4.0-rc.3`
-  - `react-on-rails-pro-node-renderer@16.4.0-rc.3`
+  - `react-on-rails-pro@16.4.0-rc.4`
+  - `react-on-rails-pro-node-renderer@16.4.0-rc.4`
   - `react-on-rails-rsc@19.0.4`
 - RubyGems:
-  - `react_on_rails@16.4.0.rc.3`
-  - `react_on_rails_pro@16.4.0.rc.3`
+  - `react_on_rails@16.4.0.rc.4`
+  - `react_on_rails_pro@16.4.0.rc.4`
 
 ## Running Locally
 
