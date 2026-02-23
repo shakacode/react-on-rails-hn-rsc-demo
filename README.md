@@ -3,6 +3,7 @@
 This repository is the implementation workspace for:
 
 - [Epic: Hacker News RSC Demo for React on Rails Pro](https://github.com/shakacode/react_on_rails-demos/issues/70)
+- [Repo Execution Epic](https://github.com/shakacode/react-on-rails-hn-rsc-demo/issues/14)
 
 ## Baseline Setup
 
@@ -27,6 +28,7 @@ This project is configured to use `mise`.
 ```bash
 MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bundle install
 MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- pnpm install
+MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bin/rails db:create
 MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bin/dev
 ```
 
@@ -40,4 +42,8 @@ MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bin/dev static
 
 - RSC support is enabled in `config/initializers/react_on_rails_pro.rb`.
 - Rspack is enabled in `config/shakapacker.yml`.
+- Routes implemented:
+  - `/` and `/news/:page` for stories
+  - `/item/:id` for item detail
+  - `/user/:id` for user profile
 - `react_on_rails:doctor` still reports a warning about missing `react-on-rails` npm package; this app intentionally uses `react-on-rails-pro` instead.
