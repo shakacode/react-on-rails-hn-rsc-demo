@@ -47,3 +47,18 @@ MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bin/dev static
   - `/item/:id` for item detail
   - `/user/:id` for user profile
 - `react_on_rails:doctor` still reports a warning about missing `react-on-rails` npm package; this app intentionally uses `react-on-rails-pro` instead.
+
+## Control Plane Flow
+
+This repo now includes `cpflow` scaffolding for review apps, automatic staging
+deploys from `main`, and manual promotion to production:
+
+- `.controlplane/` defines staging, review, and production apps plus separate
+  `rails` and `renderer` workloads
+- `.github/workflows/cpflow-*.yml` provides opt-in review apps, staging deploys,
+  production promotion, and stale review-app cleanup
+- the production Docker image now includes Node so the same image can both
+  precompile assets and run the React on Rails Pro node renderer
+
+See `.controlplane/readme.md` for the expected Control Plane secrets, app names,
+and GitHub variables.
