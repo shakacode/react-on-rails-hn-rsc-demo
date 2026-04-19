@@ -1,49 +1,28 @@
-# Hacker News RSC Demo (React on Rails Pro)
+# Hacker News RSC Demo (Historical Workspace)
 
-This repository is the implementation workspace for:
+This repository is no longer the canonical public Hacker News demo for React on Rails Pro.
 
-- [Epic: Hacker News RSC Demo for React on Rails Pro](https://github.com/shakacode/react_on_rails-demos/issues/70)
-- [Repo Execution Epic](https://github.com/shakacode/react-on-rails-hn-rsc-demo/issues/14)
+Use the newer repo instead:
 
-## Baseline Setup
+- Canonical demo: [shakacode/react_on_rails-hacker-news-app](https://github.com/shakacode/react_on_rails-hacker-news-app)
+- Demo issue: [Epic: Hacker News RSC Demo for React on Rails Pro](https://github.com/shakacode/react_on_rails-demos/issues/70)
 
-Initial app scaffolding was created with:
+## Why The Newer Repo Is The Right Entry Point
 
-- `create-react-on-rails-app@16.4.0-rc.4`
+The newer repo is the better public reference because it includes:
 
-Pinned package versions:
+- the stronger public-facing README and architecture walkthrough
+- the React on Rails Pro vs Next.js comparison
+- the lessons-learned and upstream follow-up notes
+- the Rails HTTP semantics examples for caching and 404 handling
+- the stronger deterministic test harness
+- the newer React on Rails Pro `16.4.0-rc.5` baseline
 
-- npm:
-  - `react-on-rails-pro@16.4.0-rc.4`
-  - `react-on-rails-pro-node-renderer@16.4.0-rc.4`
-  - `react-on-rails-rsc@19.0.4`
-- RubyGems:
-  - `react_on_rails@16.4.0.rc.4`
-  - `react_on_rails_pro@16.4.0.rc.4`
+## What This Repo Still Represents
 
-## Running Locally
+Keep this repo around only as historical implementation context for the earlier execution pass:
 
-This project is configured to use `mise`.
+- original repo execution epic: [react-on-rails-hn-rsc-demo#14](https://github.com/shakacode/react-on-rails-hn-rsc-demo/issues/14)
+- earlier scaffolding baseline: `create-react-on-rails-app@16.4.0-rc.4`
 
-```bash
-MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bundle install
-MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- pnpm install
-MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bin/rails db:create
-MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bin/dev
-```
-
-You can also run static assets mode:
-
-```bash
-MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bin/dev static
-```
-
-## Notes
-
-- RSC support is enabled in `config/initializers/react_on_rails_pro.rb`.
-- Rspack is enabled in `config/shakapacker.yml`.
-- Routes implemented:
-  - `/` and `/news/:page` for stories
-  - `/item/:id` for item detail
-  - `/user/:id` for user profile
-- `react_on_rails:doctor` still reports a warning about missing `react-on-rails` npm package; this app intentionally uses `react-on-rails-pro` instead.
+If the maintainers want one clear public destination, this repo should be archived after this README redirect is merged.
