@@ -9,16 +9,21 @@ import ServerInfo from "./ServerInfo";
 
 interface LayoutProps {
   children: ReactNode;
+  commitHash?: string;
   storyType?: HNStoryType;
 }
 
-export default function Layout({ children, storyType = "top" }: LayoutProps) {
+export default function Layout({
+  children,
+  commitHash,
+  storyType = "top",
+}: LayoutProps) {
   return (
     <main className={styles.main}>
       <Header storyType={storyType} />
       <section className={styles.page}>
         {children}
-        <Footer />
+        <Footer commitHash={commitHash} />
         <ServerInfo />
       </section>
     </main>

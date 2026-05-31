@@ -2,7 +2,17 @@ import React from "react";
 
 import * as styles from "./Footer.module.css";
 
-export default function Footer() {
+const REPOSITORY_URL =
+  "https://github.com/shakacode/react-on-rails-hn-rsc-demo";
+
+interface FooterProps {
+  commitHash?: string;
+}
+
+export default function Footer({ commitHash }: FooterProps) {
+  const normalizedCommitHash = commitHash?.trim();
+  const shortCommitHash = normalizedCommitHash?.slice(0, 7);
+
   return (
     <footer className={styles.footer}>
       <nav aria-label="Hacker News resources" className={styles.links}>
@@ -18,11 +28,21 @@ export default function Footer() {
       <p className={styles.branding}>
         Hacker News on Rails, powered by{" "}
         <a href="https://reactonrails.com">React on Rails Pro</a>.{" "}
-        <a href="https://github.com/shakacode/react-on-rails-hn-rsc-demo">
-          Open source
-        </a>{" "}
-        by <a href="https://www.shakacode.com">ShakaCode</a>.
+        Open the source on <a href={REPOSITORY_URL}>GitHub</a> by{" "}
+        <a href="https://www.shakacode.com">ShakaCode</a>.
       </p>
+      {normalizedCommitHash && shortCommitHash ? (
+        <p className={styles.commit}>
+          Commit{" "}
+          <a
+            className={styles.commitHash}
+            href={`${REPOSITORY_URL}/commit/${normalizedCommitHash}`}
+            title={normalizedCommitHash}
+          >
+            {shortCommitHash}
+          </a>
+        </p>
+      ) : null}
     </footer>
   );
 }

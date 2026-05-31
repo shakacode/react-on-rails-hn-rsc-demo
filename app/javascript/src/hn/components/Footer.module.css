@@ -8,7 +8,8 @@
 }
 
 .links,
-.branding {
+.branding,
+.commit {
   margin: 0;
 }
 
@@ -26,6 +27,16 @@
 .branding {
   font-size: 12px;
   margin-top: 8px;
+}
+
+.commit {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.commitHash {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 
 .footer a {
