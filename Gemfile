@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.1.2"
+gem "rails", "~> 8.1.3"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use postgresql as the database for Active Record
@@ -59,7 +59,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "react_on_rails", "= 16.4.0.rc.4"
-gem "react_on_rails_pro", "= 16.4.0.rc.4"
+gem "react_on_rails_pro", "= 17.0.0.rc.0"
 
-gem "shakapacker", "= 9.5"
+gem "shakapacker", "= 10.1.0"

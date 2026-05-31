@@ -43,4 +43,5 @@ yarn-debug.log*
 
 # Generated React on Rails packs
 **/generated/**
+.node-renderer-bundles/
 ssr-generated
