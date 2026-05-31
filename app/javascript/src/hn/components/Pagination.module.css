@@ -1,18 +1,11 @@
 .nav {
-  align-items: center;
-  display: flex;
-  font-size: 12px;
-  justify-content: space-between;
-  margin-top: 16px;
-  padding-left: 36px;
-}
-
-.page {
-  color: var(--hn-muted);
+  padding: 10px 0 0 36px;
 }
 
 .link {
   color: #000;
+  display: inline-block;
+  font-size: 14px;
   text-decoration: none;
 }
 
@@ -20,13 +13,8 @@
   text-decoration: underline;
 }
 
-.disabled {
-  color: #aaa;
-}
-
 @media (max-width: 750px) {
   .nav {
-    gap: 8px;
     padding-left: 0;
   }
 }

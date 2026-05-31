@@ -1,93 +1,122 @@
 .header {
-  align-items: center;
-  background: var(--hn-accent);
+  background: #ffa52a;
   color: #000;
   display: flex;
   font-size: 14px;
-  justify-content: space-between;
-  padding: 0 6px;
 }
 
 .left {
   align-items: center;
-  display: flex;
-  gap: 10px;
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.right {
+  flex: 1;
+  text-align: right;
 }
 
 .brand {
   align-items: center;
   color: inherit;
   display: inline-flex;
-  gap: 6px;
   text-decoration: none;
 }
 
 .logo {
+  display: inline-block;
+  margin: 4px 5px 2px 4px;
+}
+
+.logoLetter {
   border: 1px solid #fff;
   color: #fff;
   display: inline-block;
   font-size: 11px;
   font-weight: 700;
-  line-height: 1;
-  padding: 3px 5px;
+  padding: 5px 8px;
 }
 
 .title {
+  color: #000;
+  display: inline-block;
+  font-size: 14px;
   font-weight: 700;
+  padding: 8px 10px 8px 4px;
+  text-decoration: none;
+  vertical-align: top;
+  white-space: nowrap;
 }
 
 .nav {
+  display: inline-block;
   overflow-x: auto;
+  vertical-align: top;
 }
 
 .list {
+  align-items: center;
   display: flex;
-  gap: 8px;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+.list li {
+  display: inline-block;
+}
+
 .list li:not(:last-child)::after {
   content: "|";
-  margin-left: 8px;
+  padding: 0 4px;
 }
 
 .link {
-  color: inherit;
+  color: #000;
+  display: inline-block;
+  font-size: 10pt;
   text-decoration: none;
+}
+
+.link:hover,
+.active {
+  color: #fff;
 }
 
 .active {
   font-weight: 700;
-  text-decoration: underline;
-}
-
-.right {
-  padding: 6px 0;
 }
 
 .login {
-  font-size: 12px;
+  display: inline-block;
+  font-size: 10pt;
+  padding: 10px;
+}
+
+.login:hover {
+  color: #fff;
 }
 
 @media (max-width: 750px) {
-  .header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
-    padding-bottom: 8px;
-    padding-top: 6px;
-  }
-
   .left {
-    flex-direction: column;
-    gap: 4px;
-    width: 100%;
+    grid-auto-flow: row;
   }
 
-  .right {
-    align-self: flex-end;
-    padding: 0;
+  .title {
+    font-size: 16px;
+    padding-bottom: 0;
+  }
+
+  .login {
+    padding: 24px 10px 23px;
+  }
+
+  .nav {
+    display: block;
+    margin-left: 10px;
+  }
+
+  .list {
+    flex-wrap: wrap;
   }
 }

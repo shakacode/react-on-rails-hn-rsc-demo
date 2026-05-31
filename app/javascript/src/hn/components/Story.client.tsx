@@ -13,13 +13,18 @@ interface StoryProps {
 }
 
 export default function Story({ rank, story }: StoryProps) {
+  const [voted, setVoted] = React.useState(false);
+
   return (
     <article className={styles.story}>
       <span className={styles.rank}>{rank}.</span>
       <div className={styles.content}>
         <h2 className={styles.title}>
           <button
-            className={styles.vote}
+            aria-label={voted ? "Remove local upvote" : "Add local upvote"}
+            aria-pressed={voted}
+            className={voted ? `${styles.vote} ${styles.voteActive}` : styles.vote}
+            onClick={() => setVoted((current) => !current)}
             type="button"
           >
             ▲

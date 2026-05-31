@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
   rsc_payload_route
   root "stories#index"
+  get "new", to: "stories#index", defaults: { type: "new" }, as: :new_stories
+  get "new/:page", to: "stories#index", defaults: { type: "new" }, as: :new_stories_page
+  get "best", to: "stories#index", defaults: { type: "best" }, as: :best_stories
+  get "best/:page", to: "stories#index", defaults: { type: "best" }, as: :best_stories_page
+  get "ask", to: "stories#index", defaults: { type: "ask" }, as: :ask_stories
+  get "ask/:page", to: "stories#index", defaults: { type: "ask" }, as: :ask_stories_page
+  get "show", to: "stories#index", defaults: { type: "show" }, as: :show_stories
+  get "show/:page", to: "stories#index", defaults: { type: "show" }, as: :show_stories_page
+  get "jobs", to: "stories#index", defaults: { type: "job" }, as: :job_stories
+  get "jobs/:page", to: "stories#index", defaults: { type: "job" }, as: :job_stories_page
   get "news/:page", to: "stories#index", as: :news_page
   get "item/:id", to: "items#show", as: :item
   get "user/:id", to: "users#show", as: :user
