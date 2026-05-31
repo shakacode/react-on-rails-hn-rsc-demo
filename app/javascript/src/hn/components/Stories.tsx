@@ -41,7 +41,7 @@ function StoryRowFallback({ rank }: { rank: number }) {
 }
 
 async function StoryRow({ id, rank }: StoryRowProps) {
-  const item = await fetchItem(id);
+  const item = await fetchItem(id).catch(() => null);
   const story = mapItemToStory(item);
 
   if (!story) {
@@ -52,7 +52,15 @@ async function StoryRow({ id, rank }: StoryRowProps) {
 }
 
 export default async function Stories({ page, storyType }: StoriesProps) {
-  const storyPage = await fetchStoryPage(storyType, page);
+  const storyPage = await fetchStoryPage(storyType, page).catch(() => null);
+
+  if (!storyPage) {
+    return (
+      <section className={styles.wrapper}>
+        <p className={styles.missing}>Stories are unavailable right now.</p>
+      </section>
+    );
+  }
 
   return (
     <section className={styles.wrapper}>

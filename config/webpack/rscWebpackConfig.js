@@ -30,9 +30,25 @@ const configureRsc = () => {
   // This loader properly excludes client components from the RSC bundle
   const { rules } = rscConfig.module;
   rules.forEach((rule) => {
-    if (Array.isArray(rule.use)) {
-      // Find the JS loader (could be babel-loader or swc-loader depending on configuration)
+    if (typeof rule.use === 'function') {
+      const originalUse = rule.use;
+
+      rule.use = function rscLoaderWrapper(data) {
+        const result = originalUse.call(this, data);
+        const resultArray = Array.isArray(result) ? result : result ? [result] : [];
+        const resolvedRule = { use: resultArray };
+        const jsLoader =
+          extractLoader(resolvedRule, 'babel-loader') || extractLoader(resolvedRule, 'swc-loader');
+
+        if (jsLoader) {
+          return [...resultArray, { loader: 'react-on-rails-rsc/WebpackLoader' }];
+        }
+
+        return result;
+      };
+    } else if (Array.isArray(rule.use)) {
       const jsLoader = extractLoader(rule, 'babel-loader') || extractLoader(rule, 'swc-loader');
+
       if (jsLoader) {
         rule.use.push({
           loader: 'react-on-rails-rsc/WebpackLoader',
@@ -46,7 +62,7 @@ const configureRsc = () => {
   // The `...` tells webpack to retain the default conditions (e.g., `node` for server target)
   rscConfig.resolve = {
     ...rscConfig.resolve,
-    conditionNames: ['react-server', '...'],
+    conditionNames: ['react-server', 'require', 'node', 'import', 'module', 'default', '...'],
     alias: {
       ...rscConfig.resolve?.alias,
       // Ignore react-dom/server in RSC bundle - it's not needed for RSC payload generation
