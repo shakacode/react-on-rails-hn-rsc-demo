@@ -23,7 +23,8 @@ For this shared-Postgres review-app path, GitHub needs two repository secrets:
 | Name | Where | Notes |
 | --- | --- | --- |
 | `CPLN_TOKEN_STAGING` | Repository secret | Control Plane service-account token for the staging/review org. |
-| `SHARED_POSTGRES_URL_PREFIX` | Repository secret | Shared Postgres connection URL without a database name, for example `postgres://user:password@postgres.staging-shared-postgres.cpln.local:5432`. |
+| `SHARED_POSTGRES_URL_PREFIX` | Repository secret | Optional when `SHARED_POSTGRES_SOURCE_SECRET` points at an existing Control Plane database secret. Shared Postgres connection URL without a database name, for example `postgres://user:password@postgres.staging-shared-postgres.cpln.local:5432`. |
+| `SHARED_POSTGRES_SOURCE_SECRET` | Repository variable | Optional existing Control Plane dictionary secret with a `DATABASE_URL` entry. Defaults to `react-on-rails-hn-rsc-demo-staging-database`. |
 
 Use a staging/review token that cannot access production Control Plane
 resources. Review-app deploys skip fork PR heads because Docker builds and
@@ -36,10 +37,12 @@ mounted app secrets limited to review-only renderer credentials, generated
 `SECRET_KEY_BASE` values, and license values that are acceptable for review-app
 exposure.
 
-No repository variables are required for the standard review-app path. The local
-workflows default to review app prefix `react-on-rails-hn-rsc-demo-review-pr`,
-staging app `react-on-rails-hn-rsc-demo-staging`, staging org
-`shakacode-open-source-examples-staging`, and primary workload `rails`.
+No repository variables are required for the standard review-app path when the
+default staging database secret exists. The local workflows default to review
+app prefix `react-on-rails-hn-rsc-demo-review-pr`, staging app
+`react-on-rails-hn-rsc-demo-staging`, staging org
+`shakacode-open-source-examples-staging`, source database secret
+`react-on-rails-hn-rsc-demo-staging-database`, and primary workload `rails`.
 
 Optional overrides exist for forks, clones, and unusual apps:
 
@@ -47,13 +50,14 @@ Optional overrides exist for forks, clones, and unusual apps:
 | --- | --- |
 | `CPLN_ORG_STAGING` | Override the staging/review Control Plane org inferred from `controlplane.yml`. |
 | `REVIEW_APP_PREFIX` | Override the review-app prefix inferred from `controlplane.yml`. |
+| `SHARED_POSTGRES_SOURCE_SECRET` | Existing Control Plane database secret used to derive the shared Postgres URL prefix when `SHARED_POSTGRES_URL_PREFIX` is not set. |
 | `PRIMARY_WORKLOAD` | Public workload used for review URLs and health checks; defaults to `rails`. |
 
 ## Staging And Production
 
-Staging deploys use the same `CPLN_TOKEN_STAGING` and
-`SHARED_POSTGRES_URL_PREFIX` secrets. `STAGING_APP_NAME` defaults to
-`react-on-rails-hn-rsc-demo-staging`.
+Staging deploys use `CPLN_TOKEN_STAGING` plus either
+`SHARED_POSTGRES_URL_PREFIX` or `SHARED_POSTGRES_SOURCE_SECRET`.
+`STAGING_APP_NAME` defaults to `react-on-rails-hn-rsc-demo-staging`.
 Before the first staging deploy, bootstrap the persistent staging app once:
 
 ```sh

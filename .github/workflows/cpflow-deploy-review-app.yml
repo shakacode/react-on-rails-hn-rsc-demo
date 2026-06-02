@@ -56,7 +56,6 @@ jobs:
 
           missing=()
           [[ -n "${{ secrets.CPLN_TOKEN_STAGING }}" ]] || missing+=("secret:CPLN_TOKEN_STAGING")
-          [[ -n "${{ secrets.SHARED_POSTGRES_URL_PREFIX }}" ]] || missing+=("secret:SHARED_POSTGRES_URL_PREFIX")
 
           if [[ ${#missing[@]} -gt 0 ]]; then
             if [[ "${{ github.event_name }}" == "pull_request" ]]; then
@@ -203,6 +202,7 @@ jobs:
         if: steps.config.outputs.ready == 'true' && steps.source.outputs.allowed == 'true' && (steps.check-app.outputs.exists == 'true' || steps.setup-review-app.outcome == 'success')
         env:
           SHARED_POSTGRES_URL_PREFIX: ${{ secrets.SHARED_POSTGRES_URL_PREFIX }}
+          SHARED_POSTGRES_SOURCE_SECRET: ${{ vars.SHARED_POSTGRES_SOURCE_SECRET || 'react-on-rails-hn-rsc-demo-staging-database' }}
         shell: bash
         run: script/control-plane/ensure-shared-postgres-secret
 
