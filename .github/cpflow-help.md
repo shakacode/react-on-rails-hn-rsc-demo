@@ -25,6 +25,17 @@ For this shared-Postgres review-app path, GitHub needs two repository secrets:
 | `CPLN_TOKEN_STAGING` | Repository secret | Control Plane service-account token for the staging/review org. |
 | `SHARED_POSTGRES_URL_PREFIX` | Repository secret | Shared Postgres connection URL without a database name, for example `postgres://user:password@postgres.staging-shared-postgres.cpln.local:5432`. |
 
+Use a staging/review token that cannot access production Control Plane
+resources. Review-app deploys skip fork PR heads because Docker builds and
+database setup use repository secrets. If a forked change needs a review app,
+first move the reviewed change to a trusted branch in this repository.
+
+Review apps run pull request code. Keep `SHARED_POSTGRES_URL_PREFIX` pointed at
+a review-safe database server with no production or customer data, and keep
+mounted app secrets limited to review-only renderer credentials, generated
+`SECRET_KEY_BASE` values, and license values that are acceptable for review-app
+exposure.
+
 No repository variables are required for the standard review-app path. The local
 workflows default to review app prefix `react-on-rails-hn-rsc-demo-review-pr`,
 staging app `react-on-rails-hn-rsc-demo-staging`, staging org
@@ -129,7 +140,7 @@ Most apps do not need these:
 | Name | Notes |
 | --- | --- |
 | `DOCKER_BUILD_EXTRA_ARGS` | Newline-delimited extra Docker build tokens. |
-| `DOCKER_BUILD_SSH_KEY` | Private SSH key for Docker builds that fetch private dependencies. |
+| `DOCKER_BUILD_SSH_KEY` | Read-only, revocable deploy key for Docker builds that fetch private dependencies. Do not use a personal SSH key. |
 | `DOCKER_BUILD_SSH_KNOWN_HOSTS` | SSH known_hosts entries when SSH build hosts are not GitHub.com. |
 | `REVIEW_APP_DEPLOYING_ICON_URL` | Cosmetic custom image URL for the animated deploying icon. Set to `none` to use the text fallback icon. |
 | `STAGING_APP_BRANCH` | Custom staging branch. The branch must also appear in `cpflow-deploy-staging.yml`'s push filter. |
