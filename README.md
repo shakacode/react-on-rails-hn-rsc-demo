@@ -14,12 +14,15 @@ Initial app scaffolding was created with:
 Pinned package versions:
 
 - npm:
-  - `react-on-rails-pro@16.4.0-rc.4`
-  - `react-on-rails-pro-node-renderer@16.4.0-rc.4`
-  - `react-on-rails-rsc@19.0.4`
+  - `react@19.0.6`
+  - `react-dom@19.0.6`
+  - `react-on-rails-pro@17.0.0-rc.0`
+  - `react-on-rails-pro-node-renderer@17.0.0-rc.0`
+  - `react-on-rails-rsc@19.0.5-rc.3`
+  - `shakapacker@10.1.0`
 - RubyGems:
-  - `react_on_rails@16.4.0.rc.4`
-  - `react_on_rails_pro@16.4.0.rc.4`
+  - `react_on_rails_pro@17.0.0.rc.0`
+  - `shakapacker@10.1.0`
 
 ## Running Locally
 
@@ -38,10 +41,18 @@ You can also run static assets mode:
 MISE_TRACK_CONFIG_FILES=0 mise x ruby@3.4.3 node@24.8.0 -- bin/dev static
 ```
 
+## Deployment
+
+Control Plane review and staging app setup lives in `.controlplane/`, with
+GitHub workflow wrappers in `.github/workflows/cpflow-*.yml`. The staging app is
+`react-on-rails-hn-rsc-demo-staging`, review apps use the
+`react-on-rails-hn-rsc-demo-review-pr` prefix, and the preferred public custom
+domain is `hn.reactonrails.com`.
+
 ## Notes
 
 - RSC support is enabled in `config/initializers/react_on_rails_pro.rb`.
-- Rspack is enabled in `config/shakapacker.yml`.
+- Webpack is enabled in `config/shakapacker.yml` because this demo's RSC bundle config is Webpack-shaped.
 - Routes implemented:
   - `/` and `/news/:page` for stories
   - `/item/:id` for item detail

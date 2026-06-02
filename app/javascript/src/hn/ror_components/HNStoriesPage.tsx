@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import Stories from "../components/Stories";
 
 interface HNStoriesPageProps {
+  commitHash?: string;
   page?: number | string;
   storyType?: string;
 }
@@ -22,12 +23,16 @@ function normalizePage(rawPage: number | string | undefined): number {
   return 1;
 }
 
-export default function HNStoriesPage({ page, storyType }: HNStoriesPageProps) {
+export default function HNStoriesPage({
+  commitHash,
+  page,
+  storyType,
+}: HNStoriesPageProps) {
   const normalizedStoryType = normalizeStoryType(storyType);
   const normalizedPage = normalizePage(page);
 
   return (
-    <Layout storyType={normalizedStoryType}>
+    <Layout commitHash={commitHash} storyType={normalizedStoryType}>
       <Suspense fallback={<p>Loading stories...</p>}>
         <Stories page={normalizedPage} storyType={normalizedStoryType} />
       </Suspense>

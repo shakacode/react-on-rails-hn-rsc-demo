@@ -18,13 +18,14 @@ const STORY_NAV: StoryNavItem[] = [
   { key: "job", label: "jobs" },
 ];
 
-function storyTypeLink(storyType: HNStoryType): string {
-  if (storyType === "top") {
-    return "/";
-  }
-
-  return `/?type=${storyType}`;
-}
+const STORY_PATHS: Record<HNStoryType, string> = {
+  top: "/",
+  new: "/new",
+  best: "/best",
+  ask: "/ask",
+  show: "/show",
+  job: "/jobs",
+};
 
 interface HeaderProps {
   storyType: HNStoryType;
@@ -35,8 +36,10 @@ export default function Header({ storyType }: HeaderProps) {
     <header className={styles.header}>
       <div className={styles.left}>
         <a className={styles.brand} href="/">
-          <span className={styles.logo}>Y</span>
-          <span className={styles.title}>Hacker News (RoR RSC)</span>
+          <span className={styles.logo} aria-hidden="true">
+            <span className={styles.logoLetter}>N</span>
+          </span>
+          <span className={styles.title}>Hacker Next on Rails</span>
         </a>
         <nav className={styles.nav}>
           <ul className={styles.list}>
@@ -46,7 +49,7 @@ export default function Header({ storyType }: HeaderProps) {
                 <li key={item.key}>
                   <a
                     className={isActive ? `${styles.link} ${styles.active}` : styles.link}
-                    href={storyTypeLink(item.key)}
+                    href={STORY_PATHS[item.key]}
                   >
                     {item.label}
                   </a>

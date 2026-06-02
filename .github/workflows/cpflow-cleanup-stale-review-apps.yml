@@ -1,0 +1,54 @@
+name: Cleanup Stale Review Apps
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cpflow-cleanup-stale-review-apps
+  cancel-in-progress: false
+
+env:
+  REVIEW_APP_PREFIX: ${{ vars.REVIEW_APP_PREFIX || 'react-on-rails-hn-rsc-demo-review-pr' }}
+  CPLN_ORG: ${{ vars.CPLN_ORG_STAGING || 'shakacode-open-source-examples-staging' }}
+  CPLN_TOKEN: ${{ secrets.CPLN_TOKEN_STAGING }}
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate required secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          missing=()
+          [[ -n "${{ secrets.CPLN_TOKEN_STAGING }}" ]] || missing+=("secret:CPLN_TOKEN_STAGING")
+
+          if [[ ${#missing[@]} -gt 0 ]]; then
+            printf 'Missing required GitHub configuration:\n- %s\n' "${missing[@]}" >&2
+            exit 1
+          fi
+
+      - name: Setup environment
+        uses: ./.github/actions/cpflow-setup-environment
+        with:
+          token: ${{ secrets.CPLN_TOKEN_STAGING }}
+          org: ${{ env.CPLN_ORG }}
+
+      - name: Remove stale review apps
+        shell: bash
+        run: |
+          set -euo pipefail
+          cpflow cleanup-stale-apps -a "${REVIEW_APP_PREFIX}" --org "${CPLN_ORG}" --yes
+
+      - name: Remove orphan shared Postgres database secrets
+        shell: bash
+        run: script/control-plane/cleanup-orphan-shared-postgres-secrets

@@ -4,6 +4,8 @@ import { mapItemToComment, mapItemToStory } from "../../hn/lib/mappers";
 import { fetchItem } from "../../hn/lib/server";
 
 import { formatAbsoluteDate, pluralize, timeAgo } from "./formatting";
+import CommentForm from "./CommentForm";
+import ItemComments from "./ItemComments";
 import * as styles from "./ItemPage.module.css";
 
 interface ItemPageProps {
@@ -27,22 +29,33 @@ export default async function ItemPage({ itemId }: ItemPageProps) {
   if (story) {
     return (
       <article className={styles.item}>
-        <h1 className={styles.title}>
-          {story.url ? (
-            <a href={story.url} rel="noopener noreferrer nofollow" target="_blank">
-              {story.title}
-            </a>
-          ) : (
-            story.title
-          )}
-        </h1>
-        <p className={styles.meta}>
-          {story.score} {pluralize(story.score, "point")} by <a href={`/user/${story.userId}`}>{story.userId}</a>{" "}
-          <span suppressHydrationWarning>{timeAgo(story.timeMs)} ago</span> ({formatAbsoluteDate(story.timeMs)})
-        </p>
-        <p className={styles.meta}>
-          {story.commentCount} {pluralize(story.commentCount, "comment")}
-        </p>
+        <div className={styles.story}>
+          <h1 className={styles.storyTitle}>
+            {story.url ? (
+              <a href={story.url} rel="noopener noreferrer nofollow" target="_blank">
+                {story.title}
+              </a>
+            ) : (
+              story.title
+            )}
+            {story.domain && (
+              <span className={styles.domain}>
+                {" "}
+                (<a href={`https://${story.domain}`}>{story.domain}</a>)
+              </span>
+            )}
+          </h1>
+          <p className={styles.meta}>
+            {story.score} {pluralize(story.score, "point")} by{" "}
+            <a href={`/user/${story.userId}`}>{story.userId}</a>{" "}
+            <span suppressHydrationWarning>{timeAgo(story.timeMs)} ago</span>{" "}
+            | <a href={`/item/${story.id}`}>{story.commentCount} {pluralize(story.commentCount, "comment")}</a>
+          </p>
+        </div>
+        <div className={styles.form}>
+          <CommentForm />
+        </div>
+        <ItemComments commentIds={item?.kids ?? []} />
       </article>
     );
   }
@@ -52,7 +65,8 @@ export default async function ItemPage({ itemId }: ItemPageProps) {
       <h1 className={styles.title}>Comment</h1>
       <p className={styles.meta}>
         by <a href={`/user/${comment?.userId}`}>{comment?.userId}</a>{" "}
-        <span suppressHydrationWarning>{timeAgo(comment?.timeMs ?? 0)} ago</span>
+        <span suppressHydrationWarning>{timeAgo(comment?.timeMs ?? 0)} ago</span>{" "}
+        ({formatAbsoluteDate(comment?.timeMs ?? 0)})
       </p>
       <div
         className={styles.comment}

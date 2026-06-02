@@ -13,3 +13,17 @@
 //
 // const images = require.context('./images', true)
 // const imagePath = (name) => images(name, true)
+
+import "../src/hn/components/Comment.module.css";
+import "../src/hn/components/CommentForm.module.css";
+import "../src/hn/components/Footer.module.css";
+import "../src/hn/components/Header.module.css";
+import "../src/hn/components/ItemComments.module.css";
+import "../src/hn/components/ItemPage.module.css";
+import "../src/hn/components/Layout.module.css";
+import "../src/hn/components/Pagination.module.css";
+import "../src/hn/components/ServerInfo.module.css";
+import "../src/hn/components/Stories.module.css";
+import "../src/hn/components/Story.module.css";
+import "../src/hn/components/StorySkeleton.module.css";
+import "../src/hn/components/UserPage.module.css";

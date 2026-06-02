@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import ItemPage from "../components/ItemPage";
 
 interface HNItemPageProps {
+  commitHash?: string;
   itemId?: number | string;
 }
 
@@ -20,9 +21,9 @@ function normalizeItemId(rawItemId: number | string | undefined): number {
   return 0;
 }
 
-export default function HNItemPage({ itemId }: HNItemPageProps) {
+export default function HNItemPage({ commitHash, itemId }: HNItemPageProps) {
   return (
-    <Layout>
+    <Layout commitHash={commitHash}>
       <ItemPage itemId={normalizeItemId(itemId)} />
     </Layout>
   );

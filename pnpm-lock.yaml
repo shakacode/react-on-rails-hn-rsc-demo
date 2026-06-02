@@ -27,20 +27,20 @@ importers:
         specifier: 15.8.1
         version: 15.8.1
       react:
-        specifier: 19.0.4
-        version: 19.0.4
+        specifier: 19.0.6
+        version: 19.0.6
       react-dom:
-        specifier: 19.0.4
-        version: 19.0.4(react@19.0.4)
+        specifier: 19.0.6
+        version: 19.0.6(react@19.0.6)
       react-on-rails-pro:
-        specifier: 16.4.0-rc.4
-        version: 16.4.0-rc.4(react-dom@19.0.4(react@19.0.4))(react-on-rails-rsc@19.0.4(react-dom@19.0.4(react@19.0.4))(react@19.0.4)(webpack@5.105.2))(react@19.0.4)
+        specifier: 17.0.0-rc.0
+        version: 17.0.0-rc.0(react-dom@19.0.6(react@19.0.6))(react-on-rails-rsc@19.0.5-rc.3(react-dom@19.0.6(react@19.0.6))(react@19.0.6)(webpack@5.105.2))(react@19.0.6)
       react-on-rails-pro-node-renderer:
-        specifier: 16.4.0-rc.4
-        version: 16.4.0-rc.4
+        specifier: 17.0.0-rc.0
+        version: 17.0.0-rc.0
       react-on-rails-rsc:
-        specifier: 19.0.4
-        version: 19.0.4(react-dom@19.0.4(react@19.0.4))(react@19.0.4)(webpack@5.105.2)
+        specifier: 19.0.5-rc.3
+        version: 19.0.5-rc.3(react-dom@19.0.6(react@19.0.6))(react@19.0.6)(webpack@5.105.2)
       rspack-manifest-plugin:
         specifier: 5.2.1
         version: 5.2.1(@rspack/core@1.7.6)
@@ -48,8 +48,8 @@ importers:
         specifier: ^16.0.7
         version: 16.0.7(@rspack/core@1.7.6)(webpack@5.105.2)
       shakapacker:
-        specifier: 9.5.0
-        version: 9.5.0(@rspack/cli@1.7.6(@rspack/core@1.7.6)(@types/express@4.17.25)(tslib@2.8.1)(webpack-cli@6.0.1)(webpack@5.105.2))(@rspack/core@1.7.6)(@rspack/plugin-react-refresh@1.6.1(react-refresh@0.18.0))(@swc/core@1.15.11)(compression-webpack-plugin@11.1.0(webpack@5.105.2))(css-loader@7.1.4(@rspack/core@1.7.6)(webpack@5.105.2))(mini-css-extract-plugin@2.10.0(webpack@5.105.2))(rspack-manifest-plugin@5.2.1(@rspack/core@1.7.6))(sass-loader@16.0.7(@rspack/core@1.7.6)(webpack@5.105.2))(swc-loader@0.2.7(@swc/core@1.15.11)(webpack@5.105.2))(terser-webpack-plugin@5.3.16(@swc/core@1.15.11)(webpack@5.105.2))(webpack-assets-manifest@6.5.0(webpack@5.105.2))(webpack-cli@6.0.1)(webpack-dev-server@5.2.3)(webpack-subresource-integrity@5.1.0(webpack@5.105.2))(webpack@5.105.2)
+        specifier: 10.1.0
+        version: 10.1.0(@rspack/cli@1.7.6(@rspack/core@1.7.6)(@types/express@4.17.25)(tslib@2.8.1)(webpack-cli@6.0.1)(webpack@5.105.2))(@rspack/core@1.7.6)(@rspack/plugin-react-refresh@1.6.1(react-refresh@0.18.0))(@swc/core@1.15.11)(compression-webpack-plugin@11.1.0(webpack@5.105.2))(css-loader@7.1.4(@rspack/core@1.7.6)(webpack@5.105.2))(mini-css-extract-plugin@2.10.0(webpack@5.105.2))(rspack-manifest-plugin@5.2.1(@rspack/core@1.7.6))(sass-loader@16.0.7(@rspack/core@1.7.6)(webpack@5.105.2))(swc-loader@0.2.7(@swc/core@1.15.11)(webpack@5.105.2))(terser-webpack-plugin@5.3.16(@swc/core@1.15.11)(webpack@5.105.2))(webpack-assets-manifest@6.5.0(webpack@5.105.2))(webpack-cli@6.0.1)(webpack-dev-server@5.2.3)(webpack-subresource-integrity@5.1.0(webpack@5.105.2))(webpack@5.105.2)
       style-loader:
         specifier: 4.0.0
         version: 4.0.0(webpack@5.105.2)
@@ -1230,8 +1230,8 @@ packages:
   fastify-plugin@5.1.0:
     resolution: {integrity: sha512-FAIDA8eovSt5qcDgcBvDuX/v0Cjz0ohGhENZ/wpc3y+oZCY2afZ9Baqql3g/lC+OHRnciQol4ww7tuthOb9idw==}
 
-  fastify@5.7.4:
-    resolution: {integrity: sha512-e6l5NsRdaEP8rdD8VR0ErJASeyaRbzXYpmkrpr2SuvuMq6Si3lvsaVy5C+7gLanEkvjpMDzBXWE5HPeb/hgTxA==}
+  fastify@5.8.5:
+    resolution: {integrity: sha512-Yqptv59pQzPgQUSIm87hMqHJmdkb1+GPxdE6vW6FRyVE9G86mt7rOghitiU4JHRaTyDUk9pfeKmDeu70lAwM4Q==}
 
   fastq@1.20.1:
     resolution: {integrity: sha512-GGToxJ/w1x32s/D2EKND7kTil4n8OVk/9mycTc4VDza13lOvpUZTGX3mFSCtV9ksdGBVzvsyAVLM6mHFThxXxw==}
@@ -1725,6 +1725,16 @@ packages:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
 
+  pack-config-diff@0.1.0:
+    resolution: {integrity: sha512-gx60G4pnT4GFQ7WECdf7SCq9vdsvBhodLXXzwisy37/t0zkAZ3hMgLCdOGivudF1l0gcLZhIWVYreS89be15QA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    peerDependencies:
+      ts-node: '>=10'
+    peerDependenciesMeta:
+      ts-node:
+        optional: true
+
   parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
     engines: {node: '>= 0.8'}
@@ -1757,9 +1767,6 @@ packages:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
 
-  pino-abstract-transport@2.0.0:
-    resolution: {integrity: sha512-F63x5tizV6WCh4R6RHyi2Ml+M70DNRXt/+HANowMflpgGFMAym/VKm6G7ZOQRjqN7XbGxK1Lg9t6ZrtzOaivMw==}
-
   pino-abstract-transport@3.0.0:
     resolution: {integrity: sha512-wlfUczU+n7Hy/Ha5j9a/gZNy7We5+cXp8YL+X+PG8S0KXxw7n/JXA3c46Y0zQznIJ83URJiwy7Lh56WLokNuxg==}
 
@@ -1768,10 +1775,6 @@ packages:
 
   pino@10.3.1:
     resolution: {integrity: sha512-r34yH/GlQpKZbU1BvFFqOjhISRo1MNx1tWYsYvmj6KIRHSPMT2+yHOEb1SG6NMvRoHRF0a07kCOox/9yakl1vg==}
-    hasBin: true
-
-  pino@9.14.0:
-    resolution: {integrity: sha512-8OEwKp5juEvb/MjpIc4hjqfgCNysrS94RIOMXYvpYCdm/jglrKEiAYmiumbmGhCvs+IcInsphYDFwqrjr7398w==}
     hasBin: true
 
   pkg-dir@4.2.0:
@@ -2023,47 +2026,77 @@ packages:
     resolution: {integrity: sha512-s4VSOf6yN0rvbRZGxs8Om5CWj6seneMwK3oDb4lWDH0UPhWcxwOWw5+qk24bxq87szX1ydrwylIOp2uG1ojUpA==}
     engines: {node: '>= 0.8'}
 
-  react-dom@19.0.4:
-    resolution: {integrity: sha512-JiVlwQwuINIQf2+XUjtRFtLxhTE6hcyX7ZyCmY0HM7I/Kgi7qyXThkzwzg6uCfu3rTg9Ofe1x8qWYrfqthIrzg==}
+  react-dom@19.0.6:
+    resolution: {integrity: sha512-0dbe9G8x3ewsAkbetkL7qEqQ0zQNbQWV7il9kVD0R2haq3DT/3/3ZZqRH8QeMqMejTCFOvl5n8pbwKGiKvZhFQ==}
     peerDependencies:
-      react: ^19.0.4
+      react: ^19.0.6
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
-  react-on-rails-pro-node-renderer@16.4.0-rc.4:
-    resolution: {integrity: sha512-Kin01hLedFHGiZranrHmFRfN/Q56chBI1//u/GIlv8tu8DoS8iXcABBdXEz7JXEMxPr1LVb5IzhD43Hk7lgiKQ==}
+  react-on-rails-pro-node-renderer@17.0.0-rc.0:
+    resolution: {integrity: sha512-7UtLwN8oTe9lDTyrfXwepauBH3K0qPK1Lmm3Lv0+3QOg+qHRIIq4Oli3IeWlM+TO38V8/XjtUIi4BjpigOZb6Q==}
     peerDependencies:
+      '@fastify/otel': '>=0.18.0 <1.0.0'
       '@honeybadger-io/js': '>=4.0.0'
-      '@sentry/node': '>=5.0.0 <9.0.0'
+      '@opentelemetry/api': '>=1.9.0 <2.0.0'
+      '@opentelemetry/exporter-trace-otlp-http': '>=0.214.0 <1.0.0'
+      '@opentelemetry/instrumentation': '>=0.214.0 <1.0.0'
+      '@opentelemetry/instrumentation-http': '>=0.214.0 <1.0.0'
+      '@opentelemetry/resources': '>=2.0.0 <3.0.0'
+      '@opentelemetry/sdk-trace-base': '>=2.0.0 <3.0.0'
+      '@opentelemetry/sdk-trace-node': '>=2.0.0 <3.0.0'
+      '@opentelemetry/semantic-conventions': '>=1.36.0 <2.0.0'
+      '@sentry/node': '>=5.0.0 <11.0.0'
       '@sentry/tracing': '>=5.0.0'
     peerDependenciesMeta:
+      '@fastify/otel':
+        optional: true
       '@honeybadger-io/js':
+        optional: true
+      '@opentelemetry/api':
+        optional: true
+      '@opentelemetry/exporter-trace-otlp-http':
+        optional: true
+      '@opentelemetry/instrumentation':
+        optional: true
+      '@opentelemetry/instrumentation-http':
+        optional: true
+      '@opentelemetry/resources':
+        optional: true
+      '@opentelemetry/sdk-trace-base':
+        optional: true
+      '@opentelemetry/sdk-trace-node':
+        optional: true
+      '@opentelemetry/semantic-conventions':
         optional: true
       '@sentry/node':
         optional: true
       '@sentry/tracing':
         optional: true
 
-  react-on-rails-pro@16.4.0-rc.4:
-    resolution: {integrity: sha512-miVwECefcb9QPHkvvoNWBItgredoA9J+GhkH8vPntqSKZYiYE2uhEE602lL1A44ZLiDXQoOZHdQ6U1anH342Lg==}
+  react-on-rails-pro@17.0.0-rc.0:
+    resolution: {integrity: sha512-/ZO/gPOqlI/ENWoZMSvteMGGi5IWuXJBjY9dj3QHYZIKYeflySlOP+FrErpcOy0TzEZ8IU1gCQYeyJXzBgm2fA==}
     peerDependencies:
+      '@tanstack/react-router': '>=1.139.0 <2.0.0'
       react: '>= 16'
       react-dom: '>= 16'
       react-on-rails-rsc: '>= 19.0.2 <= 19.2.3'
     peerDependenciesMeta:
+      '@tanstack/react-router':
+        optional: true
       react-on-rails-rsc:
         optional: true
 
-  react-on-rails-rsc@19.0.4:
-    resolution: {integrity: sha512-KtHYz0opcXJk+Zw5aabjNiaszzpTdFgs1YfSLIZJSzU5SpddUw7b08epkxeJq/TCpR60Q9vsjxX3Q3OWJ97tMg==}
+  react-on-rails-rsc@19.0.5-rc.3:
+    resolution: {integrity: sha512-lfqsjBM38KlNDE2hnAiGhwiCE/u54oOJd9T3ChhESMj6WJ8ukMKdPb94vygmPvNc3TkOXGC94ZEjYNRHkuAaPg==}
     peerDependencies:
       react: ^19.0.3
       react-dom: ^19.0.3
       webpack: ^5.59.0
 
-  react-on-rails@16.4.0-rc.4:
-    resolution: {integrity: sha512-yJ3ayzsv1gT/fbotoMqI51teycJR82vtTZ6Pw+KTxeBT0d5It6ovOzJ6y3mtWfuPx9zDq2KG3pxRHo5vtVatzA==}
+  react-on-rails@17.0.0-rc.0:
+    resolution: {integrity: sha512-zjAf7E3TjTQXSmg7UY+C6P3eqExYf6IxQeEjNe5Eo/LTgEIbNYpbYRZFfYhr520hdFj0V50E+CWkq9h1lZWl/Q==}
     peerDependencies:
       react: '>= 16'
       react-dom: '>= 16'
@@ -2072,8 +2105,8 @@ packages:
     resolution: {integrity: sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw==}
     engines: {node: '>=0.10.0'}
 
-  react@19.0.4:
-    resolution: {integrity: sha512-6RpEg9/n0sThnO+2CaMLWuvL1iyctm9/lcSTwvmyCoJYD5eiIrwxevXtrMqrtUr96HCdQB8/Yf+oK1QGy8kXEQ==}
+  react@19.0.6:
+    resolution: {integrity: sha512-EKJI4vnOExfYqMDExb7WYVHy3KIfMX9+9OVmywK59ijwdqSlF0UItR/d/GN1GPDkFVcrzx9mo6uICNEHu7FyRw==}
     engines: {node: '>=0.10.0'}
 
   readable-stream@2.3.8:
@@ -2241,24 +2274,25 @@ packages:
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
-  shakapacker@9.5.0:
-    resolution: {integrity: sha512-pTGHzHCc74CIoXeg8otCoBa8DjGWZUoYVKu9eyWwpdO9Jq6yHxSD9u5Qp36nXjC9jupd9gnfhCY5YHqkJHpfLA==}
-    engines: {node: '>= 20', yarn: '>=1 <5'}
+  shakapacker@10.1.0:
+    resolution: {integrity: sha512-FMo4nXpM21rZyNNhXt5jn/rm40olFF1udWC0BPE9QO9QVY6utJAEv1bkKhM/mXY/k3/nDT8ur8B3ZcEs+HoLFg==}
+    engines: {node: ^20.19.0 || >=22.12.0, yarn: '>=1 <5'}
+    hasBin: true
     peerDependencies:
       '@babel/core': ^7.17.9
       '@babel/plugin-transform-runtime': ^7.17.0
       '@babel/preset-env': ^7.16.11
       '@babel/runtime': ^7.17.9
-      '@rspack/cli': ^1.0.0
-      '@rspack/core': ^1.0.0
-      '@rspack/plugin-react-refresh': ^1.0.0
+      '@rspack/cli': ^1.0.0 || ^2.0.0-0
+      '@rspack/core': ^1.0.0 || ^2.0.0-0
+      '@rspack/plugin-react-refresh': ^1.0.0 || ^2.0.0
       '@swc/core': ^1.3.0
       '@types/babel__core': ^7.0.0
       '@types/webpack': ^5.0.0
       babel-loader: ^8.2.4 || ^9.0.0 || ^10.0.0
-      compression-webpack-plugin: ^9.0.0 || ^10.0.0 || ^11.0.0
+      compression-webpack-plugin: ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0
       css-loader: ^6.8.1 || ^7.0.0
-      esbuild: ^0.14.0 || ^0.15.0 || ^0.16.0 || ^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0 || ^0.22.0 || ^0.23.0 || ^0.24.0 || ^0.25.0 || ^0.26.0 || ^0.27.0
+      esbuild: '>=0.14.0 <1.0.0'
       esbuild-loader: ^2.0.0 || ^3.0.0 || ^4.0.0
       mini-css-extract-plugin: ^2.0.0
       rspack-manifest-plugin: ^5.0.0
@@ -2266,10 +2300,10 @@ packages:
       sass-loader: ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
       swc-loader: ^0.1.15 || ^0.2.0
       terser-webpack-plugin: ^5.3.1
-      webpack: ^5.76.0
+      webpack: ^5.101.0
       webpack-assets-manifest: ^5.0.6 || ^6.0.0
-      webpack-cli: ^4.9.2 || ^5.0.0 || ^6.0.0
-      webpack-dev-server: ^4.15.2 || ^5.2.2
+      webpack-cli: ^4.9.2 || ^5.0.0 || ^6.0.0 || ^7.0.0
+      webpack-dev-server: ^5.2.2
       webpack-subresource-integrity: ^5.1.0
     peerDependenciesMeta:
       '@babel/core':
@@ -2482,9 +2516,6 @@ packages:
     engines: {node: '>=10.18'}
     peerDependencies:
       tslib: ^2
-
-  thread-stream@3.1.0:
-    resolution: {integrity: sha512-OqyPZ9u96VohAyMfJykzmivOrY2wfMSf3C5TtFJVgN+Hm6aj+voFhlK+kZEIv2FBh1X6Xp3DlnCOfEQ3B2J86A==}
 
   thread-stream@4.0.0:
     resolution: {integrity: sha512-4iMVL6HAINXWf1ZKZjIPcz5wYaOdPhtO8ATvZ+Xqp3BTdaqtAwQkNmKORqcIo5YkQqGXq5cwfswDwMqqQNrpJA==}
@@ -3977,7 +4008,7 @@ snapshots:
 
   fastify-plugin@5.1.0: {}
 
-  fastify@5.7.4:
+  fastify@5.8.5:
     dependencies:
       '@fastify/ajv-compiler': 4.0.5
       '@fastify/error': 4.2.0
@@ -4455,6 +4486,10 @@ snapshots:
 
   p-try@2.2.0: {}
 
+  pack-config-diff@0.1.0:
+    dependencies:
+      js-yaml: 4.1.1
+
   parseurl@1.3.3: {}
 
   path-complete-extname@1.0.0: {}
@@ -4472,10 +4507,6 @@ snapshots:
   picomatch@2.3.1: {}
 
   picomatch@4.0.3: {}
-
-  pino-abstract-transport@2.0.0:
-    dependencies:
-      split2: 4.2.0
 
   pino-abstract-transport@3.0.0:
     dependencies:
@@ -4496,20 +4527,6 @@ snapshots:
       safe-stable-stringify: 2.5.0
       sonic-boom: 4.2.1
       thread-stream: 4.0.0
-
-  pino@9.14.0:
-    dependencies:
-      '@pinojs/redact': 0.4.0
-      atomic-sleep: 1.0.0
-      on-exit-leak-free: 2.1.2
-      pino-abstract-transport: 2.0.0
-      pino-std-serializers: 7.1.0
-      process-warning: 5.0.0
-      quick-format-unescaped: 4.0.4
-      real-require: 0.2.0
-      safe-stable-stringify: 2.5.0
-      sonic-boom: 4.2.1
-      thread-stream: 3.1.0
 
   pkg-dir@4.2.0:
     dependencies:
@@ -4755,48 +4772,48 @@ snapshots:
       iconv-lite: 0.4.24
       unpipe: 1.0.0
 
-  react-dom@19.0.4(react@19.0.4):
+  react-dom@19.0.6(react@19.0.6):
     dependencies:
-      react: 19.0.4
+      react: 19.0.6
       scheduler: 0.25.0
 
   react-is@16.13.1: {}
 
-  react-on-rails-pro-node-renderer@16.4.0-rc.4:
+  react-on-rails-pro-node-renderer@17.0.0-rc.0:
     dependencies:
       '@fastify/formbody': 8.0.2
       '@fastify/multipart': 9.4.0
-      fastify: 5.7.4
+      fastify: 5.8.5
       fs-extra: 11.3.3
       jsonwebtoken: 9.0.3
       lockfile: 1.0.4
-      pino: 9.14.0
+      pino: 10.3.1
 
-  react-on-rails-pro@16.4.0-rc.4(react-dom@19.0.4(react@19.0.4))(react-on-rails-rsc@19.0.4(react-dom@19.0.4(react@19.0.4))(react@19.0.4)(webpack@5.105.2))(react@19.0.4):
+  react-on-rails-pro@17.0.0-rc.0(react-dom@19.0.6(react@19.0.6))(react-on-rails-rsc@19.0.5-rc.3(react-dom@19.0.6(react@19.0.6))(react@19.0.6)(webpack@5.105.2))(react@19.0.6):
     dependencies:
-      react: 19.0.4
-      react-dom: 19.0.4(react@19.0.4)
-      react-on-rails: 16.4.0-rc.4(react-dom@19.0.4(react@19.0.4))(react@19.0.4)
+      react: 19.0.6
+      react-dom: 19.0.6(react@19.0.6)
+      react-on-rails: 17.0.0-rc.0(react-dom@19.0.6(react@19.0.6))(react@19.0.6)
     optionalDependencies:
-      react-on-rails-rsc: 19.0.4(react-dom@19.0.4(react@19.0.4))(react@19.0.4)(webpack@5.105.2)
+      react-on-rails-rsc: 19.0.5-rc.3(react-dom@19.0.6(react@19.0.6))(react@19.0.6)(webpack@5.105.2)
 
-  react-on-rails-rsc@19.0.4(react-dom@19.0.4(react@19.0.4))(react@19.0.4)(webpack@5.105.2):
+  react-on-rails-rsc@19.0.5-rc.3(react-dom@19.0.6(react@19.0.6))(react@19.0.6)(webpack@5.105.2):
     dependencies:
       acorn-loose: 8.5.2
       neo-async: 2.6.2
-      react: 19.0.4
-      react-dom: 19.0.4(react@19.0.4)
+      react: 19.0.6
+      react-dom: 19.0.6(react@19.0.6)
       webpack: 5.105.2(@swc/core@1.15.11)(webpack-cli@6.0.1)
       webpack-sources: 3.3.4
 
-  react-on-rails@16.4.0-rc.4(react-dom@19.0.4(react@19.0.4))(react@19.0.4):
+  react-on-rails@17.0.0-rc.0(react-dom@19.0.6(react@19.0.6))(react@19.0.6):
     dependencies:
-      react: 19.0.4
-      react-dom: 19.0.4(react@19.0.4)
+      react: 19.0.6
+      react-dom: 19.0.6(react@19.0.6)
 
   react-refresh@0.18.0: {}
 
-  react@19.0.4: {}
+  react@19.0.6: {}
 
   readable-stream@2.3.8:
     dependencies:
@@ -4955,9 +4972,10 @@ snapshots:
 
   setprototypeof@1.2.0: {}
 
-  shakapacker@9.5.0(@rspack/cli@1.7.6(@rspack/core@1.7.6)(@types/express@4.17.25)(tslib@2.8.1)(webpack-cli@6.0.1)(webpack@5.105.2))(@rspack/core@1.7.6)(@rspack/plugin-react-refresh@1.6.1(react-refresh@0.18.0))(@swc/core@1.15.11)(compression-webpack-plugin@11.1.0(webpack@5.105.2))(css-loader@7.1.4(@rspack/core@1.7.6)(webpack@5.105.2))(mini-css-extract-plugin@2.10.0(webpack@5.105.2))(rspack-manifest-plugin@5.2.1(@rspack/core@1.7.6))(sass-loader@16.0.7(@rspack/core@1.7.6)(webpack@5.105.2))(swc-loader@0.2.7(@swc/core@1.15.11)(webpack@5.105.2))(terser-webpack-plugin@5.3.16(@swc/core@1.15.11)(webpack@5.105.2))(webpack-assets-manifest@6.5.0(webpack@5.105.2))(webpack-cli@6.0.1)(webpack-dev-server@5.2.3)(webpack-subresource-integrity@5.1.0(webpack@5.105.2))(webpack@5.105.2):
+  shakapacker@10.1.0(@rspack/cli@1.7.6(@rspack/core@1.7.6)(@types/express@4.17.25)(tslib@2.8.1)(webpack-cli@6.0.1)(webpack@5.105.2))(@rspack/core@1.7.6)(@rspack/plugin-react-refresh@1.6.1(react-refresh@0.18.0))(@swc/core@1.15.11)(compression-webpack-plugin@11.1.0(webpack@5.105.2))(css-loader@7.1.4(@rspack/core@1.7.6)(webpack@5.105.2))(mini-css-extract-plugin@2.10.0(webpack@5.105.2))(rspack-manifest-plugin@5.2.1(@rspack/core@1.7.6))(sass-loader@16.0.7(@rspack/core@1.7.6)(webpack@5.105.2))(swc-loader@0.2.7(@swc/core@1.15.11)(webpack@5.105.2))(terser-webpack-plugin@5.3.16(@swc/core@1.15.11)(webpack@5.105.2))(webpack-assets-manifest@6.5.0(webpack@5.105.2))(webpack-cli@6.0.1)(webpack-dev-server@5.2.3)(webpack-subresource-integrity@5.1.0(webpack@5.105.2))(webpack@5.105.2):
     dependencies:
       js-yaml: 4.1.1
+      pack-config-diff: 0.1.0
       path-complete-extname: 1.0.0
       webpack-merge: 5.10.0
       yargs: 17.7.2
@@ -4978,6 +4996,8 @@ snapshots:
       webpack-cli: 6.0.1(webpack-dev-server@5.2.3)(webpack@5.105.2)
       webpack-dev-server: 5.2.3(tslib@2.8.1)(webpack-cli@6.0.1)(webpack@5.105.2)
       webpack-subresource-integrity: 5.1.0(webpack@5.105.2)
+    transitivePeerDependencies:
+      - ts-node
 
   shallow-clone@3.0.1:
     dependencies:
@@ -5152,10 +5172,6 @@ snapshots:
   thingies@2.5.0(tslib@2.8.1):
     dependencies:
       tslib: 2.8.1
-
-  thread-stream@3.1.0:
-    dependencies:
-      real-require: 0.2.0
 
   thread-stream@4.0.0:
     dependencies:

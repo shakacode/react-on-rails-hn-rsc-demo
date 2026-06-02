@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def show
     @hn_user_props = {
       userId: params[:id].to_s
-    }
+    }.merge(shared_hn_props)
 
     stream_view_containing_react_components(template: "users/show")
   end

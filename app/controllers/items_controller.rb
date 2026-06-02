@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
   def show
     @hn_item_props = {
       itemId: params[:id].to_i
-    }
+    }.merge(shared_hn_props)
 
     stream_view_containing_react_components(template: "items/show")
   end

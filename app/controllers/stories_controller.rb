@@ -9,7 +9,7 @@ class StoriesController < ApplicationController
     @hn_stories_props = {
       storyType: normalized_story_type(params[:type]),
       page: normalized_page(params[:page])
-    }
+    }.merge(shared_hn_props)
 
     stream_view_containing_react_components(template: "stories/index")
   end
