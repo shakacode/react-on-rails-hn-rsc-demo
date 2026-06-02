@@ -38,7 +38,7 @@ For review apps, GitHub needs these repository secrets:
 | Secret | Notes |
 | --- | --- |
 | `CPLN_TOKEN_STAGING` | Control Plane service-account token for the staging org. |
-| `SHARED_POSTGRES_URL_PREFIX` | Shared Postgres connection URL without a database name, for example `postgres://user:password@postgres.staging-shared-postgres.cpln.local:5432`. |
+| `SHARED_POSTGRES_URL_PREFIX` | Optional when `SHARED_POSTGRES_SOURCE_SECRET` points at an existing Control Plane database secret. Shared Postgres connection URL without a database name, for example `postgres://user:password@postgres.staging-shared-postgres.cpln.local:5432`. |
 
 Use a staging/review token that cannot access production Control Plane
 resources. In public repositories, review-app deploys skip fork PR heads
@@ -50,16 +50,19 @@ Review apps run pull request code. Keep `SHARED_POSTGRES_URL_PREFIX` pointed at
 a review-safe database server with no production or customer data, and use
 database credentials that are acceptable for temporary review databases.
 
-No GitHub repository variables are required for the normal review-app workflow.
-The local workflow defaults to `react-on-rails-hn-rsc-demo-review-pr` in
-`shakacode-open-source-examples-staging`.
+`SHARED_POSTGRES_SOURCE_SECRET` can be set as a repository variable when the
+prefix should be derived from an existing Control Plane dictionary secret with a
+`DATABASE_URL` entry. It defaults to
+`react-on-rails-hn-rsc-demo-staging-database`. The local workflow defaults to
+`react-on-rails-hn-rsc-demo-review-pr` in `shakacode-open-source-examples-staging`.
 
 For staging auto-deploys, configure:
 
 | Secret or variable | Value |
 | --- | --- |
 | `CPLN_TOKEN_STAGING` | Same staging Control Plane token used by review apps. |
-| `SHARED_POSTGRES_URL_PREFIX` | Same shared Postgres URL prefix used by review apps. |
+| `SHARED_POSTGRES_URL_PREFIX` | Optional when the staging database secret already exists in Control Plane. Same shared Postgres URL prefix used by review apps. |
+| `SHARED_POSTGRES_SOURCE_SECRET` | Optional existing Control Plane dictionary secret used to derive the shared Postgres URL prefix. Defaults to `react-on-rails-hn-rsc-demo-staging-database`. |
 | `CPLN_ORG_STAGING` | `shakacode-open-source-examples-staging` |
 | `STAGING_APP_NAME` | `react-on-rails-hn-rsc-demo-staging` |
 
@@ -116,8 +119,10 @@ openssl rand -hex 32 # RENDERER_PASSWORD
 ```
 
 The deploy workflow creates the database secret dictionary `<app-name>-database`
-from `SHARED_POSTGRES_URL_PREFIX`. Do not add `.controlplane/templates/postgres.yml`
-or a `postgres` workload for review/staging apps.
+from `SHARED_POSTGRES_URL_PREFIX`, or derives that prefix from
+`SHARED_POSTGRES_SOURCE_SECRET` when the GitHub secret is not set. Do not add
+`.controlplane/templates/postgres.yml` or a `postgres` workload for
+review/staging apps.
 
 Values mounted through `cpln://secret/...` can be read by application code after
 the review app starts. Keep review-app secrets disposable or review-only:
