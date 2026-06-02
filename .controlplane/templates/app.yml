@@ -1,14 +1,18 @@
-# Template setup of the GVC, roughly corresponding to a Heroku app
+# Template setup of the GVC, roughly corresponding to a Heroku app.
+# Production must provide this dictionary secret from its managed/shared
+# database provider before the app is deployed.
 kind: gvc
 name: "{{APP_NAME}}"
 spec:
   env:
-    - name: DATABASE_HOST
-      value: 'postgres.{{APP_NAME}}.cpln.local'
-    - name: DATABASE_PORT
-      value: "5432"
-    - name: HN_RSC_DEMO_GEN_DATABASE_PASSWORD
-      value: "cpln://secret/{{APP_NAME}}-pg.password"
+    - name: DATABASE_URL
+      value: "cpln://secret/{{APP_NAME}}-database.DATABASE_URL"
+    - name: CACHE_DATABASE_URL
+      value: "cpln://secret/{{APP_NAME}}-database.CACHE_DATABASE_URL"
+    - name: QUEUE_DATABASE_URL
+      value: "cpln://secret/{{APP_NAME}}-database.QUEUE_DATABASE_URL"
+    - name: CABLE_DATABASE_URL
+      value: "cpln://secret/{{APP_NAME}}-database.CABLE_DATABASE_URL"
     - name: RAILS_ENV
       value: production
     - name: NODE_ENV

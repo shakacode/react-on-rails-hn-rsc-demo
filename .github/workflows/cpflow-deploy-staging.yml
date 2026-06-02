@@ -4,21 +4,109 @@ run-name: Deploy Control Plane staging app
 
 on:
   push:
-    # GitHub does not allow repository vars in branch filters. Default to the common
-    # deploy branches unless `cpflow generate-github-actions --staging-branch BRANCH`
-    # was used. If STAGING_APP_BRANCH is later changed in repository variables, keep
-    # this list in sync so pushes to that branch actually trigger the workflow.
     branches: ["main"]
   workflow_dispatch:
 
 permissions:
   contents: read
 
+env:
+  APP_NAME: ${{ vars.STAGING_APP_NAME || 'react-on-rails-hn-rsc-demo-staging' }}
+  CPLN_ORG: ${{ vars.CPLN_ORG_STAGING || 'shakacode-open-source-examples-staging' }}
+  CPLN_TOKEN: ${{ secrets.CPLN_TOKEN_STAGING }}
+  APP_WORKLOADS: rails worker renderer
+
+concurrency:
+  group: cpflow-deploy-staging-${{ github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
-  deploy-staging:
-    uses: shakacode/control-plane-flow/.github/workflows/cpflow-deploy-staging.yml@v5.0.4
-    with:
-      staging_app_branch_default: "main"
-    secrets:
-      CPLN_TOKEN_STAGING: ${{ secrets.CPLN_TOKEN_STAGING }}
-      DOCKER_BUILD_SSH_KEY: ${{ secrets.DOCKER_BUILD_SSH_KEY }}
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate required secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          missing=()
+          [[ -n "${{ secrets.CPLN_TOKEN_STAGING }}" ]] || missing+=("secret:CPLN_TOKEN_STAGING")
+          [[ -n "${{ secrets.SHARED_POSTGRES_URL_PREFIX }}" ]] || missing+=("secret:SHARED_POSTGRES_URL_PREFIX")
+
+          if [[ ${#missing[@]} -gt 0 ]]; then
+            printf 'Missing required GitHub configuration:\n- %s\n' "${missing[@]}" >&2
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup environment
+        uses: ./.github/actions/cpflow-setup-environment
+        with:
+          token: ${{ secrets.CPLN_TOKEN_STAGING }}
+          org: ${{ env.CPLN_ORG }}
+
+      - name: Build Docker image
+        uses: ./.github/actions/cpflow-build-docker-image
+        with:
+          app_name: ${{ env.APP_NAME }}
+          org: ${{ env.CPLN_ORG }}
+          commit: ${{ github.sha }}
+          docker_build_extra_args: ${{ vars.DOCKER_BUILD_EXTRA_ARGS }}
+          docker_build_ssh_key: ${{ secrets.DOCKER_BUILD_SSH_KEY }}
+          docker_build_ssh_known_hosts: ${{ vars.DOCKER_BUILD_SSH_KNOWN_HOSTS }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        uses: ./.github/actions/cpflow-setup-environment
+        with:
+          token: ${{ secrets.CPLN_TOKEN_STAGING }}
+          org: ${{ env.CPLN_ORG }}
+
+      - name: Setup staging app if it does not exist yet
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if ! cpflow exists -a "${APP_NAME}" --org "${CPLN_ORG}"; then
+            cpflow setup-app -a "${APP_NAME}" --org "${CPLN_ORG}"
+          fi
+
+      - name: Ensure shared Postgres identity and database secret
+        env:
+          SHARED_POSTGRES_URL_PREFIX: ${{ secrets.SHARED_POSTGRES_URL_PREFIX }}
+        shell: bash
+        run: script/control-plane/ensure-shared-postgres-secret
+
+      - name: Apply shared Postgres app template
+        shell: bash
+        run: |
+          set -euo pipefail
+          cpflow apply-template app -a "${APP_NAME}" --org "${CPLN_ORG}" --yes
+
+      - name: Detect release phase support
+        id: release-phase
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if cpflow config -a "${APP_NAME}" | grep -q "release_script:"; then
+            echo "flag=--run-release-phase" >> "$GITHUB_OUTPUT"
+          else
+            echo "flag=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy staging image
+        shell: bash
+        run: |
+          set -euo pipefail
+          cpflow deploy-image -a "${APP_NAME}" ${{ steps.release-phase.outputs.flag }} --org "${CPLN_ORG}" --verbose

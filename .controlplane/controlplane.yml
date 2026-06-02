@@ -1,7 +1,8 @@
 # Keys beginning with "cpln_" correspond to your settings in Control Plane.
 #
-# Generated baseline for a Rails app that uses PostgreSQL in production.
-# Rename the app keys below if you want something other than the repo name.
+# This demo runs Rails plus the React on Rails Pro renderer on Control Plane.
+# Staging and review apps use the shared staging Postgres GVC with app-specific
+# logical databases instead of per-app Postgres workloads.
 
 allow_org_override_by_env: true
 allow_app_override_by_env: true
@@ -12,18 +13,20 @@ aliases:
     default_location: aws-us-east-2
     setup_app_templates:
       - app
-      - postgres
       - rails
       - worker
       - renderer
+
+    # Create the app identity and app secret policy so workloads can reveal
+    # cpln://secret references from GVC env.
+    skip_secrets_setup: false
 
     one_off_workload: rails
     app_workloads:
       - rails
       - worker
       - renderer
-    additional_workloads:
-      - postgres
+    additional_workloads: []
 
     maintenance_workload: maintenance
     release_script: release_script.sh

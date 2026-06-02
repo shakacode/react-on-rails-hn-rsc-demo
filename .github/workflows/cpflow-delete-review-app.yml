@@ -17,20 +17,117 @@ permissions:
   issues: write
   pull-requests: write
 
+concurrency:
+  group: cpflow-review-app-${{ github.event.pull_request.number || github.event.issue.number || github.event.inputs.pr_number }}
+  cancel-in-progress: true
+
+env:
+  REVIEW_APP_PREFIX: ${{ vars.REVIEW_APP_PREFIX || 'react-on-rails-hn-rsc-demo-review-pr' }}
+  APP_NAME: ${{ vars.REVIEW_APP_PREFIX || 'react-on-rails-hn-rsc-demo-review-pr' }}-${{ github.event.pull_request.number || github.event.issue.number || github.event.inputs.pr_number }}
+  CPLN_ORG: ${{ vars.CPLN_ORG_STAGING || 'shakacode-open-source-examples-staging' }}
+  CPLN_TOKEN: ${{ secrets.CPLN_TOKEN_STAGING }}
+  PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number || github.event.inputs.pr_number }}
+
 jobs:
   delete-review-app:
-    # pull_request_target is intentional: fork PR-close events need access to
-    # staging secrets to delete review apps and update PR comments. The upstream
-    # reusable workflow checks out trusted base-branch action code, not fork code.
     if: |
       (github.event_name == 'issue_comment' &&
        github.event.issue.pull_request &&
-       contains(fromJson('["+review-app-delete","+review-app-delete\n","+review-app-delete\r\n"]'), github.event.comment.body) &&
+       contains(fromJson('["+review-app-delete","+review-app-delete\n","+review-app-delete\r\n","/delete-review-app","/delete-review-app\n","/delete-review-app\r\n"]'), github.event.comment.body) &&
        contains(fromJson('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)) ||
       (github.event_name == 'pull_request_target' && github.event.action == 'closed') ||
       github.event_name == 'workflow_dispatch'
-    # This `if:` mirrors the upstream job guard to avoid a billable workflow_call
-    # when the event does not match. Keep both conditions in sync.
-    uses: shakacode/control-plane-flow/.github/workflows/cpflow-delete-review-app.yml@v5.0.4
-    secrets:
-      CPLN_TOKEN_STAGING: ${{ secrets.CPLN_TOKEN_STAGING }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate required secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          missing=()
+          [[ -n "${{ secrets.CPLN_TOKEN_STAGING }}" ]] || missing+=("secret:CPLN_TOKEN_STAGING")
+
+          if [[ ${#missing[@]} -gt 0 ]]; then
+            printf 'Missing required GitHub configuration:\n- %s\n' "${missing[@]}" >&2
+            exit 1
+          fi
+
+      - name: Setup environment
+        uses: ./.github/actions/cpflow-setup-environment
+        with:
+          token: ${{ secrets.CPLN_TOKEN_STAGING }}
+          org: ${{ env.CPLN_ORG }}
+
+      - name: Set workflow links
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const workflowUrl = `${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            core.exportVariable("WORKFLOW_URL", workflowUrl);
+            core.exportVariable(
+              "CONSOLE_URL",
+              `https://console.cpln.io/console/org/${process.env.CPLN_ORG}/-info`
+            );
+
+      - name: Create initial PR comment
+        id: create-comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number(process.env.PR_NUMBER),
+              body: "Deleting Control Plane review app..."
+            });
+            core.setOutput("comment-id", comment.data.id);
+
+      - name: Delete review app
+        id: delete-review-app
+        uses: ./.github/actions/cpflow-delete-control-plane-app
+        with:
+          app_name: ${{ env.APP_NAME }}
+          cpln_org: ${{ env.CPLN_ORG }}
+          review_app_prefix: ${{ env.REVIEW_APP_PREFIX }}
+
+      - name: Delete shared Postgres database secret
+        if: always() && steps.delete-review-app.outcome == 'success'
+        shell: bash
+        run: script/control-plane/delete-shared-postgres-secret
+
+      - name: Finalize delete status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const commentId = Number("${{ steps.create-comment.outputs.comment-id }}");
+            const success = "${{ job.status }}" === "success";
+            const body = success
+              ? [
+                  `Review app for PR #${process.env.PR_NUMBER} is deleted`,
+                  "",
+                  `[Open organization console](${process.env.CONSOLE_URL})`,
+                  `[View workflow logs](${process.env.WORKFLOW_URL})`
+                ].join("\n")
+              : [
+                  `Failed to delete review app for PR #${process.env.PR_NUMBER}`,
+                  "",
+                  `[Open organization console](${process.env.CONSOLE_URL})`,
+                  `[View workflow logs](${process.env.WORKFLOW_URL})`
+                ].join("\n");
+
+            if (!Number.isFinite(commentId) || commentId <= 0) {
+              core.warning("Skipping delete status comment update because no comment id was created.");
+              return;
+            }
+
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: commentId,
+              body
+            });

@@ -13,8 +13,10 @@ The app runs three image-backed workloads:
 - `worker`: Solid Queue worker via `./bin/jobs`
 - `renderer`: React on Rails Pro Node renderer on cleartext HTTP/2 port `3800`
 
-PostgreSQL runs as a stateful workload for review and staging demos. Production
-should be reviewed before launch; a managed database is usually preferable.
+Review and staging apps use the shared staging Postgres GVC. Each app gets its
+own dictionary secret named `<app-name>-database` with separate logical
+databases for primary, cache, queue, and cable connections. The review/staging
+GVCs should not have a local `postgres` workload.
 
 ## App Names
 
@@ -31,22 +33,23 @@ News property.
 
 ## GitHub Repository Settings
 
-For review apps, GitHub needs one repository secret:
+For review apps, GitHub needs these repository secrets:
 
 | Secret | Notes |
 | --- | --- |
 | `CPLN_TOKEN_STAGING` | Control Plane service-account token for the staging org. |
+| `SHARED_POSTGRES_URL_PREFIX` | Shared Postgres connection URL without a database name, for example `postgres://user:password@postgres.staging-shared-postgres.cpln.local:5432`. |
 
 No GitHub repository variables are required for the normal review-app workflow.
-The workflow infers the review app prefix and staging org from
-`.controlplane/controlplane.yml` because that file defines exactly one app with
-`match_if_app_name_starts_with: true`.
+The local workflow defaults to `react-on-rails-hn-rsc-demo-review-pr` in
+`shakacode-open-source-examples-staging`.
 
 For staging auto-deploys, configure:
 
 | Secret or variable | Value |
 | --- | --- |
 | `CPLN_TOKEN_STAGING` | Same staging Control Plane token used by review apps. |
+| `SHARED_POSTGRES_URL_PREFIX` | Same shared Postgres URL prefix used by review apps. |
 | `CPLN_ORG_STAGING` | `shakacode-open-source-examples-staging` |
 | `STAGING_APP_NAME` | `react-on-rails-hn-rsc-demo-staging` |
 
@@ -69,12 +72,20 @@ environment approval gate passes.
 Bootstrap persistent staging once before the first merge-to-main deploy:
 
 ```sh
-cpflow setup-app -a react-on-rails-hn-rsc-demo-staging --org shakacode-open-source-examples-staging --skip-post-creation-hook
+export APP_NAME=react-on-rails-hn-rsc-demo-staging
+export CPLN_ORG=shakacode-open-source-examples-staging
+export APP_WORKLOADS="rails worker renderer"
+export SHARED_POSTGRES_URL_PREFIX="postgres://user:password@postgres.staging-shared-postgres.cpln.local:5432"
+
+cpflow setup-app -a "$APP_NAME" --org "$CPLN_ORG"
+script/control-plane/ensure-shared-postgres-secret
+cpflow apply-template app -a "$APP_NAME" --org "$CPLN_ORG" --yes
 ```
 
-Use `--skip-post-creation-hook` so first-time bootstrap does not try to run
-database setup before a Docker image exists. Database preparation belongs in
-`.controlplane/release_script.sh`, which runs after the Docker image is built.
+Database preparation belongs in `.controlplane/release_script.sh`, which runs
+after the Docker image is built. The deploy workflows run
+`script/control-plane/ensure-shared-postgres-secret` before `deploy-image` so
+new review apps and staging deploys use the shared database before migrations.
 
 Review apps are created on demand by the `+review-app-deploy` workflow and named
 `react-on-rails-hn-rsc-demo-review-pr-<PR number>`.
@@ -94,9 +105,9 @@ openssl rand -hex 64 # SECRET_KEY_BASE
 openssl rand -hex 32 # RENDERER_PASSWORD
 ```
 
-The generated PostgreSQL template creates the database secret dictionary
-`<app-name>-pg` with the `hn_rsc_demo_gen` username. Replace the placeholder
-password before serious staging testing.
+The deploy workflow creates the database secret dictionary `<app-name>-database`
+from `SHARED_POSTGRES_URL_PREFIX`. Do not add `.controlplane/templates/postgres.yml`
+or a `postgres` workload for review/staging apps.
 
 ## Local Validation
 
@@ -105,7 +116,7 @@ Run:
 ```sh
 bin/test-cpflow-github-flow
 node -c client/node-renderer.js
-RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 HN_RSC_DEMO_GEN_DATABASE_PASSWORD=dummy bin/rails assets:precompile
+RAILS_ENV=production SECRET_KEY_BASE_DUMMY=1 DATABASE_URL=postgres://postgres:postgres@localhost:5432/hn_rsc_demo_gen_test bin/rails assets:precompile
 ```
 
 If a workload template changes after the persistent staging app exists, apply
@@ -113,6 +124,12 @@ the template once before relying on deploy-image alone:
 
 ```sh
 cpflow apply-template renderer -a react-on-rails-hn-rsc-demo-staging --org shakacode-open-source-examples-staging --yes
+```
+
+If the GVC template changes, also re-apply the shared database template:
+
+```sh
+cpflow apply-template app -a react-on-rails-hn-rsc-demo-staging --org shakacode-open-source-examples-staging --yes
 ```
 
 The renderer workload must expose port `3800` as `http2`, and
