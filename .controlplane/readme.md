@@ -40,6 +40,16 @@ For review apps, GitHub needs these repository secrets:
 | `CPLN_TOKEN_STAGING` | Control Plane service-account token for the staging org. |
 | `SHARED_POSTGRES_URL_PREFIX` | Shared Postgres connection URL without a database name, for example `postgres://user:password@postgres.staging-shared-postgres.cpln.local:5432`. |
 
+Use a staging/review token that cannot access production Control Plane
+resources. In public repositories, review-app deploys skip fork PR heads
+because Docker builds and database setup use repository secrets. If a forked
+change needs a review app, first move the reviewed change to a trusted branch
+in this repository.
+
+Review apps run pull request code. Keep `SHARED_POSTGRES_URL_PREFIX` pointed at
+a review-safe database server with no production or customer data, and use
+database credentials that are acceptable for temporary review databases.
+
 No GitHub repository variables are required for the normal review-app workflow.
 The local workflow defaults to `react-on-rails-hn-rsc-demo-review-pr` in
 `shakacode-open-source-examples-staging`.
@@ -108,6 +118,12 @@ openssl rand -hex 32 # RENDERER_PASSWORD
 The deploy workflow creates the database secret dictionary `<app-name>-database`
 from `SHARED_POSTGRES_URL_PREFIX`. Do not add `.controlplane/templates/postgres.yml`
 or a `postgres` workload for review/staging apps.
+
+Values mounted through `cpln://secret/...` can be read by application code after
+the review app starts. Keep review-app secrets disposable or review-only:
+separate renderer credentials, generated `SECRET_KEY_BASE` values, and a Pro
+license value that is acceptable for review-app exposure. Do not reuse
+production or long-lived staging secret dictionaries for review apps.
 
 ## Local Validation
 
