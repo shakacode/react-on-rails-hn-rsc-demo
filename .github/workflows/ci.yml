@@ -120,6 +120,47 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install JavaScript dependencies
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
+      - name: Build test assets
+        env:
+          RAILS_ENV: test
+        run: |
+          bin/rails react_on_rails:generate_packs
+          bin/shakapacker
+
+      - name: Start Node renderer
+        shell: bash
+        env:
+          RAILS_ENV: test
+          RENDERER_LOG_LEVEL: warn
+          RENDERER_PORT: 3800
+        run: |
+          node client/node-renderer.js > /tmp/hn-node-renderer.log 2>&1 &
+
+          for _ in {1..30}; do
+            if (: > /dev/tcp/127.0.0.1/3800) >/dev/null 2>&1; then
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "Node renderer did not become ready in time"
+          cat /tmp/hn-node-renderer.log
+          exit 1
+
       - name: Run System Tests
         env:
           RAILS_ENV: test
