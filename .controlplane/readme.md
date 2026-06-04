@@ -14,9 +14,9 @@ The app runs three image-backed workloads:
 - `renderer`: React on Rails Pro Node renderer on cleartext HTTP/2 port `3800`
 
 Review and staging apps use the shared staging Postgres GVC. Each app gets its
-own dictionary secret named `<app-name>-database` with separate logical
-databases for primary, cache, queue, and cable connections. The review/staging
-GVCs should not have a local `postgres` workload.
+own `<app-name>-database` dictionary with demo-safe logical databases for
+primary, cache, queue, and cable connections. The review/staging GVCs should
+not have a local `postgres` workload.
 
 ## App Names
 
@@ -48,7 +48,7 @@ in this repository.
 
 Review apps run pull request code. Keep `SHARED_POSTGRES_URL_PREFIX` pointed at
 a review-safe database server with no production or customer data, and use
-database credentials that are acceptable for temporary review databases.
+database credentials that are acceptable for demo-safe logical review databases.
 
 `SHARED_POSTGRES_SOURCE_SECRET` can be set as a repository variable when the
 prefix should be derived from an existing Control Plane dictionary secret with a
@@ -76,8 +76,9 @@ For production promotion later, configure a protected GitHub Environment named
 | `PRODUCTION_APP_NAME` | Environment variable on `production`: `react-on-rails-hn-rsc-demo-production` |
 
 Protect the `production` environment with required reviewers and prevent
-self-review. The generated promotion wrapper passes only the staging token from
-repository secrets; GitHub injects `CPLN_TOKEN_PRODUCTION` only after the
+self-review. The promotion workflow runs as a normal caller-repo job with
+`environment: production`, then checks out the pinned Control Plane Flow release
+for shared actions. GitHub injects `CPLN_TOKEN_PRODUCTION` only after the
 environment approval gate passes.
 
 ## Control Plane Setup
@@ -120,8 +121,9 @@ openssl rand -hex 32 # RENDERER_PASSWORD
 
 The deploy workflow creates the database secret dictionary `<app-name>-database`
 from `SHARED_POSTGRES_URL_PREFIX`, or derives that prefix from
-`SHARED_POSTGRES_SOURCE_SECRET` when the GitHub secret is not set. Do not add
-`.controlplane/templates/postgres.yml` or a `postgres` workload for
+`SHARED_POSTGRES_SOURCE_SECRET` when the GitHub secret is not set. Database
+policies are created per app by `script/control-plane/ensure-shared-postgres-secret`.
+Do not add `.controlplane/templates/postgres.yml` or a `postgres` workload for
 review/staging apps.
 
 Values mounted through `cpln://secret/...` can be read by application code after

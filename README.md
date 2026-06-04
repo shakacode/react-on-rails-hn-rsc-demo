@@ -16,12 +16,12 @@ Pinned package versions:
 - npm:
   - `react@19.0.6`
   - `react-dom@19.0.6`
-  - `react-on-rails-pro@17.0.0-rc.0`
-  - `react-on-rails-pro-node-renderer@17.0.0-rc.0`
-  - `react-on-rails-rsc@19.0.5-rc.3`
+  - `react-on-rails-pro@17.0.0-rc.1`
+  - `react-on-rails-pro-node-renderer@17.0.0-rc.1`
+  - `react-on-rails-rsc@19.0.5-rc.5`
   - `shakapacker@10.1.0`
 - RubyGems:
-  - `react_on_rails_pro@17.0.0.rc.0`
+  - `react_on_rails_pro@17.0.0.rc.1`
   - `shakapacker@10.1.0`
 
 ## Running Locally

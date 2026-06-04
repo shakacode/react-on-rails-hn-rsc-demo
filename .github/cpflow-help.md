@@ -3,7 +3,7 @@
 These commands are implemented by local GitHub Actions workflows that wrap
 [cpflow](https://github.com/shakacode/control-plane-flow). For full setup,
 version-pinning, and troubleshooting details, see the upstream
-[CI automation guide](https://github.com/shakacode/control-plane-flow/blob/v5.0.4/docs/ci-automation.md).
+[CI automation guide](https://github.com/shakacode/control-plane-flow/blob/v5.1.1/docs/ci-automation.md).
 
 ## Pull Request Commands
 
@@ -97,8 +97,9 @@ Production promotion is part of the generated flow, but keep it protected:
 | `PRODUCTION_APP_NAME` | Prefer `production` Environment variable | Production app name from `controlplane.yml`. |
 
 Configure the `production` GitHub Environment with required reviewers and
-prevent self-review. The generated promotion wrapper passes only the staging
-token from repository secrets; GitHub injects `CPLN_TOKEN_PRODUCTION` only after
+prevent self-review. The promotion workflow runs as a normal caller-repo job
+with `environment: production`, then checks out the pinned Control Plane Flow
+release for shared actions. GitHub injects `CPLN_TOKEN_PRODUCTION` only after
 the environment approval gate passes.
 
 Before the first promotion, bootstrap the production app the same way in the
@@ -119,8 +120,8 @@ exactly matches the same released gem.
 
 Leave `CPFLOW_VERSION` unset so the workflow builds cpflow from the same
 checked-out upstream source. If you set `CPFLOW_VERSION`, it must match the
-release tag, for example `CPFLOW_VERSION=5.0.4` with a wrapper pinned to
-`uses: ...@v5.0.4`.
+release tag, for example `CPFLOW_VERSION=5.1.1` with a wrapper pinned to
+`uses: ...@v5.1.1`.
 
 After updating the `cpflow` gem in this repo, validate the local workflows in
 the same PR:

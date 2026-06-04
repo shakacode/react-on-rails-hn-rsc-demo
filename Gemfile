@@ -59,6 +59,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "react_on_rails_pro", "= 17.0.0.rc.0"
+gem "react_on_rails_pro", "= 17.0.0.rc.1"
 
 gem "shakapacker", "= 10.1.0"

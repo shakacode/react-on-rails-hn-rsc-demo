@@ -1,8 +1,10 @@
 # Keys beginning with "cpln_" correspond to your settings in Control Plane.
 #
 # This demo runs Rails plus the React on Rails Pro renderer on Control Plane.
-# Staging and review apps use the shared staging Postgres GVC with app-specific
-# logical databases instead of per-app Postgres workloads.
+# Staging and review apps use the shared staging Postgres GVC. Each app keeps
+# its own database dictionary with demo-safe logical database URLs derived from
+# the same shared Postgres prefix, not production data or per-review Postgres
+# workloads.
 
 allow_org_override_by_env: true
 allow_app_override_by_env: true
@@ -48,6 +50,9 @@ apps:
   react-on-rails-hn-rsc-demo-review-pr:
     <<: *common
     match_if_app_name_starts_with: true
+    # Review apps use <app-name>-database dictionaries created by
+    # script/control-plane/ensure-shared-postgres-secret. App-level secrets stay
+    # in {{APP_SECRETS}}.
     # Keep setup-app image-free for the first review-app deploy. Database setup
     # runs from release_script.sh after GitHub Actions builds the Docker image.
 
